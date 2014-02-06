@@ -1,0 +1,12 @@
+{
+    "name" : "gea-plugin-dishwasher",
+    "description" : "Dishwasher plugin for General Electric Appliance SDK",
+    "homepage" : "http://www.ge.com/",
+    "keywords" : [ "GE", "GEA", "SDK", "General Electric", "dishwasher" ],
+    "author" : "Christopher Baker <christopher.baker2@ge.com>",
+    "repository" : {
+        "type": "git", "url": "https://github.com/GEMakers/gea-plugin-dishwasher.git"
+    },
+    "version" : "0.1.0"
+}
+
