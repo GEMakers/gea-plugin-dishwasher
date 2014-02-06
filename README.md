@@ -714,8 +714,7 @@ If the bit is cleared (value is 0) then the reminders is not active.
 
 ### User configuration
 The following is a diagram of the value for each bit in the user configuration.
-If the bit is set (value is 1) then the reminder is active.
-If the bit is cleared (value is 0) then the reminders is not active.
+There are three configuration bytes, each described below.
 
 | Bit     | Description    |
 |:-------:|:---------------|
