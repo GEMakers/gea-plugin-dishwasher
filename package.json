@@ -7,6 +7,9 @@
     "repository" : {
         "type": "git", "url": "https://github.com/GEMakers/gea-plugin-dishwasher.git"
     },
-    "version" : "0.1.0"
+    "version" : "0.1.0",
+    "dependencies": {
+        "gea-sdk": "git+https://github.com/GEMakers/gea-sdk.git"
+    }
 }
 
