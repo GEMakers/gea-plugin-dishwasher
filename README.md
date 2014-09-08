@@ -1,36 +1,35 @@
-# Dishwasher Plugin for the GEA SDK
+# Dishwasher
+**General Electric Appliances Dishwasher Software Development Kit**
 
-This node.js package provides functionality for communicating with a dishwasher via the [GEA SDK](https://github.com/GEMakers/gea-sdk).
+This node.js package provides functionality for communicating with a dishwasher via the [General Electric Appliance Software Development Kit](https://github.com/GEMakers/gea-sdk). In order to use this software, you must first connect your dishwasher to your computer using the [Green Bean](https://github.com/GEMakers/green-bean).
 
-## Table of Contents
+## Overview
 
-- [Installation](#installation)
-- [API](#dishwasher-api)
-  - [bus.on("dishwasher", callback)](#busondishwasher-callback)
-    - [dishwasher.cycleStatus](#dishwashercyclestatus)
-    - [dishwasher.operatingMode](#dishwasheroperatingmode)
-    - [dishwasher.disabledFeatures](#dishwasherdisabledfeatures)
-    - [dishwasher.reminders](#dishwasherreminders)
-    - [dishwasher.rates](#dishwasherrates)
-    - [dishwasher.turbidityCalibration](#dishwasherturbiditycalibration)
-    - [dishwasher.doorCount](#dishwasherdoorcount)
-    - [dishwasher.userConfiguration](#dishwasheruserconfiguration)
-    - [dishwasher.error](#dishwashererror)
-    - [dishwasher.cycleCounts](#dishwashercyclecounts)
-    - [dishwasher.continuousCycle](#dishwashercontinuouscycle)
-    - [dishwasher.controlLock](#dishwashercontrollock)
-    - [dishwasher.personality](#dishwasherpersonality)
-    - [dishwasher.diverterCalibration](#dishwasherdivertercalibration)
-    - [dishwasher.cycleState](#dishwashercyclestate)
-    - [dishwasher.analogData](#dishwasheranalogdata)
-    - [dishwasher.cycleData0](#dishwashercycledata0)
-    - [dishwasher.cycleData1](#dishwashercycledata1)
-    - [dishwasher.cycleData2](#dishwashercycledata2)
-    - [dishwasher.cycleData3](#dishwashercycledata3)
-    - [dishwasher.cycleData4](#dishwashercycledata4)
-    - [dishwasher.dryDrainCounters](#dishwasherdrydraincounters)
-    - [dishwasher.tubLight](#dishwashertublight)
-- [Appendix](#appendix)
+1. [Using the Software](#using-the-software)
+  - [dishwasher.cycleStatus](#dishwashercyclestatus)
+  - [dishwasher.operatingMode](#dishwasheroperatingmode)
+  - [dishwasher.disabledFeatures](#dishwasherdisabledfeatures)
+  - [dishwasher.reminders](#dishwasherreminders)
+  - [dishwasher.rates](#dishwasherrates)
+  - [dishwasher.turbidityCalibration](#dishwasherturbiditycalibration)
+  - [dishwasher.doorCount](#dishwasherdoorcount)
+  - [dishwasher.userConfiguration](#dishwasheruserconfiguration)
+  - [dishwasher.error](#dishwashererror)
+  - [dishwasher.cycleCounts](#dishwashercyclecounts)
+  - [dishwasher.continuousCycle](#dishwashercontinuouscycle)
+  - [dishwasher.controlLock](#dishwashercontrollock)
+  - [dishwasher.personality](#dishwasherpersonality)
+  - [dishwasher.diverterCalibration](#dishwasherdivertercalibration)
+  - [dishwasher.cycleState](#dishwashercyclestate)
+  - [dishwasher.analogData](#dishwasheranalogdata)
+  - [dishwasher.cycleData0](#dishwashercycledata0)
+  - [dishwasher.cycleData1](#dishwashercycledata1)
+  - [dishwasher.cycleData2](#dishwashercycledata2)
+  - [dishwasher.cycleData3](#dishwashercycledata3)
+  - [dishwasher.cycleData4](#dishwashercycledata4)
+  - [dishwasher.dryDrainCounters](#dishwasherdrydraincounters)
+  - [dishwasher.tubLight](#dishwashertublight)
+1. [Appendix](#appendix)
   - [Operating mode](#operating-mode)
   - [Disabled features](#disabled-features)
   - [Reminders](#reminders)
@@ -39,49 +38,8 @@ This node.js package provides functionality for communicating with a dishwasher 
   - [Personality source](#personality-source)
   - [Cycle state](#cycle-state)
 
-## Installation
-To install this application using the node.js package manager, issue the following commands:
-
-```
-npm install git+https://github.com/GEMakers/gea-plugin-dishwasher.git
-```
-
-To include the plugin in your application, use the *plugin* function after configuring your application.
-
-``` javascript
-var gea = require("gea-sdk");
-var adapter = require("gea-adapter-usb");
-
-// configure your application
-var app = gea.configure({
-    address: 0xcb
-});
-
-// include the dishwasher plugin in your application
-app.plugin(require("gea-plugin-dishwasher"));
-
-// bind to the adapter to access the bus
-app.bind(adapter, function (bus) {
-    // the bus now has all of the dishwasher plugin functions
-});
-```
-
-## Dishwasher API
-Below is the documentation for each of the functions provided by this plugin, as well as a few examples showing how to use them.
-
-### *bus.on("dishwasher", callback)*
-This event is emitted whenever a dishwasher has been discovered on the bus.
-A dishwasher object is passed from the plugin to the function.
-This dishwasher object inherits all functions and properties from the appliance object.
-
-``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        console.log("address:", dishwasher.address);
-        console.log("version:", dishwasher.version.join("."));
-    });
-});
-```
+### Using the Software
+Below are a few node.js applications that demonstrate how to use this package to interact with a dishwasher.
 
 ### *dishwasher.cycleStatus*
 The cycle status is an object with the following fields:
@@ -92,23 +50,23 @@ The cycle status is an object with the following fields:
 - stepsEstimated (the estimated number of steps in the cycle)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleStatus.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleStatus.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleStatus.write({
-            cycleRunning: 1,
-            activeCycle: 2,
-            activeCycleStep: 1,
-            stepsExecuted: 1,
-            stepsEstimated: 2
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleStatus.read(function (value) {
+        console.log("cycle status is:", value);
+    });
+
+    dishwasher.cycleStatus.subscribe(function (value) {
+        console.log("cycle status changed:", value);
+    });
+
+    dishwasher.cycleStatus.write({
+        cycleRunning: 1,
+        activeCycle: 2,
+        activeCycleStep: 1,
+        stepsExecuted: 1,
+        stepsEstimated: 2
     });
 });
 ```
@@ -117,18 +75,18 @@ app.bind(adapter, function (bus) {
 The operating mode is an integer value of the [operating mode](#operating-mode) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.operatingMode.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.operatingMode.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.operatingMode.write(1);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.operatingMode.read(function (value) {
+        console.log("operating mode is:", value);
     });
+
+    dishwasher.operatingMode.subscribe(function (value) {
+        console.log("operating mode changed:", value);
+    });
+
+    dishwasher.operatingMode.write(1);
 });
 ```
 
@@ -136,18 +94,18 @@ app.bind(adapter, function (bus) {
 The disabled features are an integer value of the [disabled features](#disabled-features) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.disabledFeatures.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.disabledFeatures.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.disabledFeatures.write(3);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.disabledFeatures.read(function (value) {
+        console.log("disabled features are:", value);
     });
+
+    dishwasher.disabledFeatures.subscribe(function (value) {
+        console.log("disabled features changed:", value);
+    });
+
+    dishwasher.disabledFeatures.write(3);
 });
 ```
 
@@ -155,18 +113,18 @@ app.bind(adapter, function (bus) {
 The reminders are an integer value of the [reminders](#reminders) bit field.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.reminders.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.reminders.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.reminders.write(0);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.reminders.read(function (value) {
+        console.log("reminders are:", value);
     });
+
+    dishwasher.reminders.subscribe(function (value) {
+        console.log("reminders changed:", value);
+    });
+
+    dishwasher.reminders.write(0);
 });
 ```
 
@@ -174,78 +132,78 @@ app.bind(adapter, function (bus) {
 The rates are an object with the following fields:
 - fillRate (the rate that water fills)
 - drainRate (the rate that water drains)
-            
+
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.rates.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.rates.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.rates.write({
-            fillRate: 0,
-            drainRate: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.rates.read(function (value) {
+        console.log("rates are:", value);
+    });
+
+    dishwasher.rates.subscribe(function (value) {
+        console.log("rates changed:", value);
+    });
+
+    dishwasher.rates.write({
+        fillRate: 0,
+        drainRate: 0
     });
 });
 ```
 
 ### *dishwasher.turbidityCalibration*
 The turbidity calibration is an integer value used to calibrate the sensor readings.
-            
+
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.turbidityCalibration.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.turbidityCalibration.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.turbidityCalibration.write(0);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.turbidityCalibration.read(function (value) {
+        console.log("turbidity calibration is:", value);
     });
+
+    dishwasher.turbidityCalibration.subscribe(function (value) {
+        console.log("turbidity calibration changed:", value);
+    });
+
+    dishwasher.turbidityCalibration.write(0);
 });
 ```
 
 ### *dishwasher.doorCount*
 The door count is a read-only integer value that is incremented each time the door is opened.
-            
+
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.doorCount.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.doorCount.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.doorCount.read(function (value) {
+        console.log("door count is:", value);
+    });
+
+    dishwasher.doorCount.subscribe(function (value) {
+        console.log("door count changed:", value);
     });
 });
 ```
 
 ### *dishwasher.userConfiguration*
 The user configuration is an array of bytes representing the [user configuration](#user-configuration) bit field.
-            
+
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.userConfiguration.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.userConfiguration.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.userConfiguration.write([0, 0, 0]);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.userConfiguration.read(function (value) {
+        console.log("user configuration is:", value);
     });
+
+    dishwasher.userConfiguration.subscribe(function (value) {
+        console.log("user configuration changed:", value);
+    });
+
+    dishwasher.userConfiguration.write([0, 0, 0]);
 });
 ```
 
@@ -255,20 +213,20 @@ The error is an object with the following fields:
 - errorState (zero if the error is cleared, one if the error is set)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.error.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.error.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.error.write({
-            errorId: 0,
-            errorState: 1
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.error.read(function (value) {
+        console.log("error is:", value);
+    });
+
+    dishwasher.error.subscribe(function (value) {
+        console.log("error changed:", value);
+    });
+
+    dishwasher.error.write({
+        errorId: 0,
+        errorState: 1
     });
 });
 ```
@@ -280,21 +238,21 @@ The cycle counts are an object with the following fields:
 - resetCount (the number of times a cycle was reset)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleCounts.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleCounts.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleCounts.write({
-            startedCount: 2,
-            completedCount: 1,
-            resetCount: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleCounts.read(function (value) {
+        console.log("cycle counts are:", value);
+    });
+
+    dishwasher.cycleCounts.subscribe(function (value) {
+        console.log("cycle counts changed:", value);
+    });
+
+    dishwasher.cycleCounts.write({
+        startedCount: 2,
+        completedCount: 1,
+        resetCount: 0
     });
 });
 ```
@@ -306,21 +264,21 @@ The cycle counts are an object with the following fields:
 - minutesBetweenCycles (the number of minutes between cycles)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.continuousCycle.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.continuousCycle.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.continuousCycle.write({
-            cycleToRun: 1,
-            cyclesRemaining: 0,
-            minutesBetweenCycles: 5
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.continuousCycle.read(function (value) {
+        console.log("continuous cycle is:", value);
+    });
+
+    dishwasher.continuousCycle.subscribe(function (value) {
+        console.log("continuous cycle changed:", value);
+    });
+
+    dishwasher.continuousCycle.write({
+        cycleToRun: 1,
+        cyclesRemaining: 0,
+        minutesBetweenCycles: 5
     });
 });
 ```
@@ -329,18 +287,18 @@ app.bind(adapter, function (bus) {
 The control lock is an integer value of the [control lock](#control-lock) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.controlLock.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.controlLock.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.controlLock.write(0x55);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.controlLock.read(function (value) {
+        console.log("control lock is:", value);
     });
+
+    dishwasher.controlLock.subscribe(function (value) {
+        console.log("control lock changed:", value);
+    });
+
+    dishwasher.controlLock.write(0x55);
 });
 ```
 
@@ -350,20 +308,20 @@ The personality is an object with the following fields:
 - source (the cycle to run, see [personality source](#personality-source))
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.personality.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.personality.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.personality.write({
-            personality: 15,
-            source: 1
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.personality.read(function (value) {
+        console.log("personality is:", value);
+    });
+
+    dishwasher.personality.subscribe(function (value) {
+        console.log("personality changed:", value);
+    });
+
+    dishwasher.personality.write({
+        personality: 15,
+        source: 1
     });
 });
 ```
@@ -376,22 +334,22 @@ The diverter calibration is an object with the following fields:
 - positionDTime (the time at position D)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.diverterCalibration.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.diverterCalibration.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.diverterCalibration.write({
-            positionATime: 1,
-            positionBTime: 2,
-            positionCTime: 3,
-            positionDTime: 4
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.diverterCalibration.read(function (value) {
+        console.log("diverter calibration is:", value);
+    });
+
+    dishwasher.diverterCalibration.subscribe(function (value) {
+        console.log("diverter calibration changed:", value);
+    });
+
+    dishwasher.diverterCalibration.write({
+        positionATime: 1,
+        positionBTime: 2,
+        positionCTime: 3,
+        positionDTime: 4
     });
 });
 ```
@@ -400,18 +358,18 @@ app.bind(adapter, function (bus) {
 The cycle state is an integer value of the [cycle state](#cycle-state) enumeration.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleState.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleState.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleState.write(9);
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleState.read(function (value) {
+        console.log("cycle state is:", value);
     });
+
+    dishwasher.cycleState.subscribe(function (value) {
+        console.log("cycle state changed:", value);
+    });
+
+    dishwasher.cycleState.write(9);
 });
 ```
 
@@ -419,15 +377,15 @@ app.bind(adapter, function (bus) {
 The analog data is a read-only byte array of analog input sensor values.
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.analogData.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.analogData.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.analogData.read(function (value) {
+        console.log("analog data is:", value);
+    });
+
+    dishwasher.analogData.subscribe(function (value) {
+        console.log("analog data changed:", value);
     });
 });
 ```
@@ -445,27 +403,27 @@ The cycle data is an object with the following fields:
 - cycleMaximumTurbidityInNTU (the maximum turbidity value in NTU)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleData0.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleData0.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleData0.write({
-            cycleTime: 5,
-            cycleNumber: 0,
-            cycleDurationInMinutes: 25,
-            cycleCompleted: 0,
-            cycleMinimumTemperatureInFahrenheit: 60,
-            cycleMaximumTemperatureInFahrenheit: 80,
-            cycleFinalCirculationTemperatureInFahrenheit: 70,
-            cycleMinimumTurbidityInNTU: 0,
-            cycleMaximumTurbidityInNTU: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleData0.read(function (value) {
+        console.log("cycle data 0 is:", value);
+    });
+
+    dishwasher.cycleData0.subscribe(function (value) {
+        console.log("cycle data 0 changed:", value);
+    });
+
+    dishwasher.cycleData0.write({
+        cycleTime: 5,
+        cycleNumber: 0,
+        cycleDurationInMinutes: 25,
+        cycleCompleted: 0,
+        cycleMinimumTemperatureInFahrenheit: 60,
+        cycleMaximumTemperatureInFahrenheit: 80,
+        cycleFinalCirculationTemperatureInFahrenheit: 70,
+        cycleMinimumTurbidityInNTU: 0,
+        cycleMaximumTurbidityInNTU: 0
     });
 });
 ```
@@ -483,27 +441,27 @@ The cycle data is an object with the following fields:
 - cycleMaximumTurbidityInNTU (the maximum turbidity value in NTU)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleData1.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleData1.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleData1.write({
-            cycleTime: 5,
-            cycleNumber: 0,
-            cycleDurationInMinutes: 25,
-            cycleCompleted: 0,
-            cycleMinimumTemperatureInFahrenheit: 60,
-            cycleMaximumTemperatureInFahrenheit: 80,
-            cycleFinalCirculationTemperatureInFahrenheit: 70,
-            cycleMinimumTurbidityInNTU: 0,
-            cycleMaximumTurbidityInNTU: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleData1.read(function (value) {
+        console.log("cycle data 1 is:", value);
+    });
+
+    dishwasher.cycleData1.subscribe(function (value) {
+        console.log("cycle data 1 changed:", value);
+    });
+
+    dishwasher.cycleData1.write({
+        cycleTime: 5,
+        cycleNumber: 0,
+        cycleDurationInMinutes: 25,
+        cycleCompleted: 0,
+        cycleMinimumTemperatureInFahrenheit: 60,
+        cycleMaximumTemperatureInFahrenheit: 80,
+        cycleFinalCirculationTemperatureInFahrenheit: 70,
+        cycleMinimumTurbidityInNTU: 0,
+        cycleMaximumTurbidityInNTU: 0
     });
 });
 ```
@@ -521,27 +479,27 @@ The cycle data is an object with the following fields:
 - cycleMaximumTurbidityInNTU (the maximum turbidity value in NTU)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleData2.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleData2.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleData2.write({
-            cycleTime: 5,
-            cycleNumber: 0,
-            cycleDurationInMinutes: 25,
-            cycleCompleted: 0,
-            cycleMinimumTemperatureInFahrenheit: 60,
-            cycleMaximumTemperatureInFahrenheit: 80,
-            cycleFinalCirculationTemperatureInFahrenheit: 70,
-            cycleMinimumTurbidityInNTU: 0,
-            cycleMaximumTurbidityInNTU: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleData2.read(function (value) {
+        console.log("cycle data 2 is:", value);
+    });
+
+    dishwasher.cycleData2.subscribe(function (value) {
+        console.log("cycle data 2 changed:", value);
+    });
+
+    dishwasher.cycleData2.write({
+        cycleTime: 5,
+        cycleNumber: 0,
+        cycleDurationInMinutes: 25,
+        cycleCompleted: 0,
+        cycleMinimumTemperatureInFahrenheit: 60,
+        cycleMaximumTemperatureInFahrenheit: 80,
+        cycleFinalCirculationTemperatureInFahrenheit: 70,
+        cycleMinimumTurbidityInNTU: 0,
+        cycleMaximumTurbidityInNTU: 0
     });
 });
 ```
@@ -559,27 +517,27 @@ The cycle data is an object with the following fields:
 - cycleMaximumTurbidityInNTU (the maximum turbidity value in NTU)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleData3.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleData3.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleData3.write({
-            cycleTime: 5,
-            cycleNumber: 0,
-            cycleDurationInMinutes: 25,
-            cycleCompleted: 0,
-            cycleMinimumTemperatureInFahrenheit: 60,
-            cycleMaximumTemperatureInFahrenheit: 80,
-            cycleFinalCirculationTemperatureInFahrenheit: 70,
-            cycleMinimumTurbidityInNTU: 0,
-            cycleMaximumTurbidityInNTU: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleData3.read(function (value) {
+        console.log("cycle data 3 is:", value);
+    });
+
+    dishwasher.cycleData3.subscribe(function (value) {
+        console.log("cycle data 3 changed:", value);
+    });
+
+    dishwasher.cycleData3.write({
+        cycleTime: 5,
+        cycleNumber: 0,
+        cycleDurationInMinutes: 25,
+        cycleCompleted: 0,
+        cycleMinimumTemperatureInFahrenheit: 60,
+        cycleMaximumTemperatureInFahrenheit: 80,
+        cycleFinalCirculationTemperatureInFahrenheit: 70,
+        cycleMinimumTurbidityInNTU: 0,
+        cycleMaximumTurbidityInNTU: 0
     });
 });
 ```
@@ -597,27 +555,27 @@ The cycle data is an object with the following fields:
 - cycleMaximumTurbidityInNTU (the maximum turbidity value in NTU)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.cycleData4.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.cycleData4.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.cycleData4.write({
-            cycleTime: 5,
-            cycleNumber: 0,
-            cycleDurationInMinutes: 25,
-            cycleCompleted: 0,
-            cycleMinimumTemperatureInFahrenheit: 60,
-            cycleMaximumTemperatureInFahrenheit: 80,
-            cycleFinalCirculationTemperatureInFahrenheit: 70,
-            cycleMinimumTurbidityInNTU: 0,
-            cycleMaximumTurbidityInNTU: 0
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.cycleData4.read(function (value) {
+        console.log("cycle data 4 is:", value);
+    });
+
+    dishwasher.cycleData4.subscribe(function (value) {
+        console.log("cycle data 4 changed:", value);
+    });
+
+    dishwasher.cycleData4.write({
+        cycleTime: 5,
+        cycleNumber: 0,
+        cycleDurationInMinutes: 25,
+        cycleCompleted: 0,
+        cycleMinimumTemperatureInFahrenheit: 60,
+        cycleMaximumTemperatureInFahrenheit: 80,
+        cycleFinalCirculationTemperatureInFahrenheit: 70,
+        cycleMinimumTurbidityInNTU: 0,
+        cycleMaximumTurbidityInNTU: 0
     });
 });
 ```
@@ -628,20 +586,20 @@ The dry drain counters are an object with the following fields:
 - noDryDrainDetectedMaximumValue (the maximum value a dry-drain cannot occur)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.dryDrainCounters.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.dryDrainCounters.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.dryDrainCounters.write({
-            noDryDrainDetectedCount: 5,
-            noDryDrainDetectedMaximumValue: 45
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.dryDrainCounters.read(function (value) {
+        console.log("dry drain counters are:", value);
+    });
+
+    dishwasher.dryDrainCounters.subscribe(function (value) {
+        console.log("dry drain counters changed:", value);
+    });
+
+    dishwasher.dryDrainCounters.write({
+        noDryDrainDetectedCount: 5,
+        noDryDrainDetectedMaximumValue: 45
     });
 });
 ```
@@ -651,19 +609,19 @@ The tub light is an object with the following field:
 - dutyCyclePercentage (the duty cycle percentage between 0 and 100, inclusive)
 
 ``` javascript
-app.bind(adapter, function (bus) {
-    bus.on("dishwasher", function (dishwasher) {
-        dishwasher.tubLight.read(function (value) {
-            console.log("read:", value);
-        });
-        
-        dishwasher.tubLight.subscribe(function (value) {
-            console.log("subscribe:", value);
-        });
-        
-        dishwasher.tubLight.write({
-            dutyCyclePercentage: 50
-        });
+var greenBean = require("green-bean");
+
+greenBean.connect("dishwasher", function(dishwasher) {
+    dishwasher.tubLight.read(function (value) {
+        console.log("tub light is:", value);
+    });
+
+    dishwasher.tubLight.subscribe(function (value) {
+        console.log("tub light changed:", value);
+    });
+
+    dishwasher.tubLight.write({
+        dutyCyclePercentage: 50
     });
 });
 ```
