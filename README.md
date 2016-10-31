@@ -391,9 +391,8 @@ greenBean.connect("dishwasher", function(dishwasher) {
 ```
 
 ### *dishwasher.cycleData0*
-The cycle data is an object with the following fields:
+The cycle data is a read-only object with the following fields:
 - cycleTime (the time of the cycle)
-- cycleNumber (the number of the cycle)
 - cycleDurationInMinutes (the duration of the cycle in minutes)
 - cycleCompleted (zero if the cycle is not complete, one if incomplete)
 - cycleMinimumTemperatureInFahrenheit (the minimum cycle temperature in Fahrenheit)
@@ -413,25 +412,12 @@ greenBean.connect("dishwasher", function(dishwasher) {
     dishwasher.cycleData0.subscribe(function (value) {
         console.log("cycle data 0 changed:", value);
     });
-
-    dishwasher.cycleData0.write({
-        cycleTime: 5,
-        cycleNumber: 0,
-        cycleDurationInMinutes: 25,
-        cycleCompleted: 0,
-        cycleMinimumTemperatureInFahrenheit: 60,
-        cycleMaximumTemperatureInFahrenheit: 80,
-        cycleFinalCirculationTemperatureInFahrenheit: 70,
-        cycleMinimumTurbidityInNTU: 0,
-        cycleMaximumTurbidityInNTU: 0
-    });
 });
 ```
 
 ### *dishwasher.cycleData1*
-The cycle data is an object with the following fields:
+The cycle data is a read-only object with the following fields:
 - cycleTime (the time of the cycle)
-- cycleNumber (the number of the cycle)
 - cycleDurationInMinutes (the duration of the cycle in minutes)
 - cycleCompleted (zero if the cycle is not complete, one if incomplete)
 - cycleMinimumTemperatureInFahrenheit (the minimum cycle temperature in Fahrenheit)
@@ -451,25 +437,12 @@ greenBean.connect("dishwasher", function(dishwasher) {
     dishwasher.cycleData1.subscribe(function (value) {
         console.log("cycle data 1 changed:", value);
     });
-
-    dishwasher.cycleData1.write({
-        cycleTime: 5,
-        cycleNumber: 0,
-        cycleDurationInMinutes: 25,
-        cycleCompleted: 0,
-        cycleMinimumTemperatureInFahrenheit: 60,
-        cycleMaximumTemperatureInFahrenheit: 80,
-        cycleFinalCirculationTemperatureInFahrenheit: 70,
-        cycleMinimumTurbidityInNTU: 0,
-        cycleMaximumTurbidityInNTU: 0
-    });
 });
 ```
 
 ### *dishwasher.cycleData2*
-The cycle data is an object with the following fields:
+The cycle data is a read-only object with the following fields:
 - cycleTime (the time of the cycle)
-- cycleNumber (the number of the cycle)
 - cycleDurationInMinutes (the duration of the cycle in minutes)
 - cycleCompleted (zero if the cycle is not complete, one if incomplete)
 - cycleMinimumTemperatureInFahrenheit (the minimum cycle temperature in Fahrenheit)
@@ -489,25 +462,12 @@ greenBean.connect("dishwasher", function(dishwasher) {
     dishwasher.cycleData2.subscribe(function (value) {
         console.log("cycle data 2 changed:", value);
     });
-
-    dishwasher.cycleData2.write({
-        cycleTime: 5,
-        cycleNumber: 0,
-        cycleDurationInMinutes: 25,
-        cycleCompleted: 0,
-        cycleMinimumTemperatureInFahrenheit: 60,
-        cycleMaximumTemperatureInFahrenheit: 80,
-        cycleFinalCirculationTemperatureInFahrenheit: 70,
-        cycleMinimumTurbidityInNTU: 0,
-        cycleMaximumTurbidityInNTU: 0
-    });
 });
 ```
 
 ### *dishwasher.cycleData3*
-The cycle data is an object with the following fields:
+The cycle data is a read-only object with the following fields:
 - cycleTime (the time of the cycle)
-- cycleNumber (the number of the cycle)
 - cycleDurationInMinutes (the duration of the cycle in minutes)
 - cycleCompleted (zero if the cycle is not complete, one if incomplete)
 - cycleMinimumTemperatureInFahrenheit (the minimum cycle temperature in Fahrenheit)
@@ -527,25 +487,12 @@ greenBean.connect("dishwasher", function(dishwasher) {
     dishwasher.cycleData3.subscribe(function (value) {
         console.log("cycle data 3 changed:", value);
     });
-
-    dishwasher.cycleData3.write({
-        cycleTime: 5,
-        cycleNumber: 0,
-        cycleDurationInMinutes: 25,
-        cycleCompleted: 0,
-        cycleMinimumTemperatureInFahrenheit: 60,
-        cycleMaximumTemperatureInFahrenheit: 80,
-        cycleFinalCirculationTemperatureInFahrenheit: 70,
-        cycleMinimumTurbidityInNTU: 0,
-        cycleMaximumTurbidityInNTU: 0
-    });
 });
 ```
 
 ### *dishwasher.cycleData4*
-The cycle data is an object with the following fields:
+The cycle data is a read-only object with the following fields:
 - cycleTime (the time of the cycle)
-- cycleNumber (the number of the cycle)
 - cycleDurationInMinutes (the duration of the cycle in minutes)
 - cycleCompleted (zero if the cycle is not complete, one if incomplete)
 - cycleMinimumTemperatureInFahrenheit (the minimum cycle temperature in Fahrenheit)
@@ -564,18 +511,6 @@ greenBean.connect("dishwasher", function(dishwasher) {
 
     dishwasher.cycleData4.subscribe(function (value) {
         console.log("cycle data 4 changed:", value);
-    });
-
-    dishwasher.cycleData4.write({
-        cycleTime: 5,
-        cycleNumber: 0,
-        cycleDurationInMinutes: 25,
-        cycleCompleted: 0,
-        cycleMinimumTemperatureInFahrenheit: 60,
-        cycleMaximumTemperatureInFahrenheit: 80,
-        cycleFinalCirculationTemperatureInFahrenheit: 70,
-        cycleMinimumTurbidityInNTU: 0,
-        cycleMaximumTurbidityInNTU: 0
     });
 });
 ```

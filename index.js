@@ -137,8 +137,7 @@ function DishWasher (bus, appliance, base) {
         endian: "big",
         format: [
             "cycleTime:UInt32",
-            "cycleNumber:UInt8",
-            "cycleDurationInMinutes:UInt8",
+            "cycleDurationInMinutes:UInt16",
             "cycleCompleted:UInt8",
             "cycleMinimumTemperatureInFahrenheit:UInt8",
             "cycleMaximumTemperatureInFahrenheit:UInt8",
@@ -153,8 +152,7 @@ function DishWasher (bus, appliance, base) {
         endian: "big",
         format: [
             "cycleTime:UInt32",
-            "cycleNumber:UInt8",
-            "cycleDurationInMinutes:UInt8",
+            "cycleDurationInMinutes:UInt16",
             "cycleCompleted:UInt8",
             "cycleMinimumTemperatureInFahrenheit:UInt8",
             "cycleMaximumTemperatureInFahrenheit:UInt8",
@@ -169,8 +167,7 @@ function DishWasher (bus, appliance, base) {
         endian: "big",
         format: [
             "cycleTime:UInt32",
-            "cycleNumber:UInt8",
-            "cycleDurationInMinutes:UInt8",
+            "cycleDurationInMinutes:UInt16",
             "cycleCompleted:UInt8",
             "cycleMinimumTemperatureInFahrenheit:UInt8",
             "cycleMaximumTemperatureInFahrenheit:UInt8",
@@ -185,8 +182,7 @@ function DishWasher (bus, appliance, base) {
         endian: "big",
         format: [
             "cycleTime:UInt32",
-            "cycleNumber:UInt8",
-            "cycleDurationInMinutes:UInt8",
+            "cycleDurationInMinutes:UInt16",
             "cycleCompleted:UInt8",
             "cycleMinimumTemperatureInFahrenheit:UInt8",
             "cycleMaximumTemperatureInFahrenheit:UInt8",
@@ -201,8 +197,7 @@ function DishWasher (bus, appliance, base) {
         endian: "big",
         format: [
             "cycleTime:UInt32",
-            "cycleNumber:UInt8",
-            "cycleDurationInMinutes:UInt8",
+            "cycleDurationInMinutes:UInt16",
             "cycleCompleted:UInt8",
             "cycleMinimumTemperatureInFahrenheit:UInt8",
             "cycleMaximumTemperatureInFahrenheit:UInt8",
